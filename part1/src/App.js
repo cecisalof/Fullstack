@@ -1,10 +1,10 @@
 import React from 'react'
 
 const Header= (props) => {
-  //console.log("From Header component", props)
+  //console.log("From Header component", props.course.name)
    return (
      <>
-       <h1>{props.course}</h1>
+       <h1>{props.course.name}</h1>
      </>
    )
  }
@@ -20,10 +20,10 @@ const Part = (props) => {
 }
 
 const Content = (props) => {
-  //console.log("From Content component", props.parts[1].name);
+  //console.log("From Content component", props.course.parts[0].name);
   
-  const partOfCourse = [props.parts[0].name, props.parts[1].name, props.parts[2].name];
-  const numberOfExercises = [props.parts[0].exercises, props.parts[1].exercises, props.parts[2].exercises];
+  const partOfCourse = [props.course.parts[0].name, props.course.parts[1].name, props.course.parts[2].name];
+  const numberOfExercises = [props.course.parts[0].exercises, props.course.parts[1].exercises, props.course.parts[2].exercises];
   //console.log(partOfCourse);
   //console.log(numberOfExercises);
 
@@ -39,7 +39,7 @@ const Content = (props) => {
 
  const Total = (props) => {
    //console.log("From Total component", props.parts[0].exercises)
-   const exercisesSum = (props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises)
+   const exercisesSum = (props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises)
    //console.log(exercisesSum);
    return (
      <>
@@ -51,27 +51,30 @@ const Content = (props) => {
 
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    }
-  ]
-  //console.log("Accesig data from array", parts[0].name)
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
+  }
+  
+  //console.log("Accesig data from course object", course.parts[0].name)
   return (
     <div>
-      <Header course ={course}/>
-      <Content parts={parts}  />
-      <Total parts={parts}    />
+      <Header course= {course} />
+      <Content course= {course}/>
+      <Total course= {course}  />
     </div>
   )
 }

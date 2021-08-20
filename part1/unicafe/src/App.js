@@ -2,18 +2,20 @@ import React, {useState} from 'react'
 
 const Button = ({handleClick, text}) => (
   <button onClick={handleClick}> {text} </button>
-);
+  );
 
 const Statistics = ({text, good, neutral, bad, total}) => (
    <p>{text} {good} {neutral} {bad} {total}</p>
-);
+  );
 
-const Average = ({average, total, text}) => {
-  return(
+const Average = ({average, total, text}) => (
      <p>{text} {average / total}</p>
-   )
+  );
 
- }
+  const PositiveFeedback = ({good, total, text}) => (
+    <p>{text} {good / total * 100}</p>
+ );
+
 
 const App = () => {
 
@@ -22,8 +24,9 @@ const App = () => {
   const [bad, setBad] = useState(0);
   const [total, setTotal] = useState(0)
   const [average, setAverage] = useState(0);
+  // const [percentage, setPercentage] = useState(0);
   
-  const handleFeedback = () => {
+  const handleGoodFeedback = () => {
       setGood(good +1);
       setTotal(total +1)
       setAverage(average +1);
@@ -47,7 +50,7 @@ const App = () => {
   return (
     <>
       <h1>Give us your feedback!</h1>
-      <Button handleClick={handleFeedback} text='Good'/>
+      <Button handleClick={handleGoodFeedback} text='Good'/>
       <Button handleClick={handleNeutralFeedback} text='Neutral'/>
       <Button handleClick={handleBadFeedback} text='Bad' />
       <h1>Statistics</h1>
@@ -56,6 +59,7 @@ const App = () => {
       <Statistics text='Bad:' bad={bad} />
       <Statistics text='All:' total={total} />
       <Average text='Average:' average={average} setAverage={setAverage} total={total} setTotal={setTotal}/>
+      <PositiveFeedback text='Positives:' good={good} total={total} />
     </>
   )
 }

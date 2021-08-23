@@ -4,47 +4,56 @@ const Button = ({handleClick, text}) => (
   <button onClick={handleClick}> {text} </button>
   );
 
-const Statistics = ({text, good, neutral, bad, total}) => (
-   <p>{text} {good} {neutral} {bad} {total}</p>
+const Statistics = ({good, neutral, bad}) => {
+  const total = (good + neutral + bad);
+  const average = (good - bad) / total ; 
+
+ 
+  return(
+    (total !== 0 ?
+    <>
+    <Statistic text='Good:' value={good} />
+    <Statistic text='Neutral:' value={neutral} />
+    <Statistic text='Bad:' value={bad} />
+    <Statistic text='All:' value={good + neutral + bad} />
+    <Statistic text='Average:' value={average} />
+    <Statistic text='Positives:' value={good / total * 100} unit={'%'}/>
+   </>
+   : <h5> No feedback given yet! </h5>)
+   );
+}
+
+const Statistic = ({text, value, unit}) => ( 
+    <p>{text} {value} {unit}</p>
   );
-
-const Average = ({average, total, text}) => (
-     <p>{text} {average / total}</p>
-  );
-
-  const PositiveFeedback = ({good, total, text}) => (
-    <p>{text} {good / total * 100}</p>
- );
-
-
+ 
 const App = () => {
 
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
-  const [total, setTotal] = useState(0)
-  const [average, setAverage] = useState(0);
-  // const [percentage, setPercentage] = useState(0);
+  // const [total, setTotal] = useState(0)
+  // const [average, setAverage] = useState(0);
   
   const handleGoodFeedback = () => {
       setGood(good +1);
-      setTotal(total +1)
-      setAverage(average +1);
+      // setTotal(total +1)
+      // setAverage(average +1);
       console.log('Congratulations! You have recieved a good feedback on ' + new Date())
     }
     
   const handleNeutralFeedback = () => {
-    setNeutral(neutral +1);
-    setTotal(total +1)
-    setAverage(average);
-    console.log('Neutral customer´s feedback on ' + new Date())
+      setNeutral(neutral +1);
+      // setTotal(total +1)
+      // setAverage(average);
+      console.log('Neutral customer´s feedback on ' + new Date())
   }
 
   const handleBadFeedback = () => {
-    setBad(bad +1);
-    setTotal(total +1)
-    setAverage(average -1)
-    console.log('Watch out! Bad customer´s feedback on ' + new Date())
+      setBad(bad +1);
+      // setTotal(total +1)
+      // setAverage(average -1)
+      console.log('Watch out! Bad customer´s feedback on ' + new Date())
   }
 
   return (
@@ -54,12 +63,14 @@ const App = () => {
       <Button handleClick={handleNeutralFeedback} text='Neutral'/>
       <Button handleClick={handleBadFeedback} text='Bad' />
       <h1>Statistics</h1>
-      <Statistics text='Good:' good={good} />
-      <Statistics text='Neutral:' neutral={neutral} />
-      <Statistics text='Bad:' bad={bad} />
-      <Statistics text='All:' total={total} />
-      <Average text='Average:' average={average} setAverage={setAverage} total={total} setTotal={setTotal}/>
-      <PositiveFeedback text='Positives:' good={good} total={total} />
+      <Statistics 
+      good={good} 
+      neutral={neutral} 
+      bad={bad} 
+      // total={total}
+      // average={average} 
+      />
+      
     </>
   )
 }

@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import './App.css';
 
 const Button = ({handleClick, text}) => (
   <button onClick={handleClick}> {text} </button>
@@ -24,7 +25,21 @@ const Statistics = ({good, neutral, bad}) => {
 }
 
 const Statistic = ({text, value, unit}) => ( 
-    <p>{text} {value} {unit}</p>
+    // <table>
+      <tbody> 
+      {/* <tbody> tag needs to wrap any <tr> element. The browser will 
+      return an error if this tag is missing. */}
+       {/* <colgroup>
+         <col className='column'></col>
+       </colgroup>  */}
+        <tr>
+          <td className='statistics'> {text} </td> <td className='statistics'> {value}</td>
+          <td className='statistics'> {unit} </td>
+        </tr>
+      </tbody>
+    // </table>
+
+    
   );
  
 const App = () => {

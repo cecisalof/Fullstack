@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
 
-const Button = ({selected, setSelected, handleClick}) => (
-    <button onClick={handleClick}> Next anecdote </button>
+const Button = ({selected, setSelected, handleClick, text}) => (
+    <button onClick={handleClick}> {text} </button>
 )
 
 const App = () => {
@@ -20,29 +20,46 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   
 
-  function getRandomArbitrary() {
+  function getRandomNumber() {
     const random = Math.floor(Math.random() * 6) + 1;
     console.log("random number", random)
     return random;
 
     }
- 
+
+    function getVote(props) {
+      //console.log(props);
+      const copyAnecdotes = { ...props }
+      //console.log(copyAnecdotes)
+      //console.log(selected)
+      let vote = 0;
+      copyAnecdotes.forEach( anecdote => {
+        console.log(anecdotes)
+        // let vote = 0;
+        copyAnecdotes[selected] === anecdote ? vote += 1 : vote=0;
+        //console.log(vote)
+      }) 
+     
+
+      // if(anecdotes[])
+      return 'This anecdote has'+ {vote} + 'votes';
   
-  const handleClick = () => {
-    // console.log(anecdotes)
-    console.log("button!!!")
-    setSelected(getRandomArbitrary()) // here what should be randomly manipulated is anecdote´s index
-    
+      }
+  
+  const handleClick = (props) => {
+    //console.log(props)
+    props === 'anecdote' ? setSelected(getRandomNumber()) : getVote(anecdotes);// here what should be randomly manipulated is anecdote´s index
   }
 
 
   return (
     <div>
       {anecdotes[selected]} {/*anecdotes index starting in 0 */}
-      <Button handleClick={() => handleClick()} selected={selected} setSelected={selected}/>
+      <Button text={'Vote'} anecdotes={anecdotes} handleClick={() => handleClick('vote')} selected={selected} setSelected={selected}/>
+      <Button text={'Next anecdote'} handleClick={() => handleClick('anecdote')} selected={selected} setSelected={selected}/>
       {/* <button onClick={handleClick}> Click for random anecdote! </button> */}
     </div>
   )
 }
 
-export default App
+export default App;

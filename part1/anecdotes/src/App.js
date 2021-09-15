@@ -5,6 +5,16 @@ const Button = ({selected, setSelected, handleClick, text}) => (
     <button onClick={handleClick}> {text} </button>
 )
 
+
+const Vote = ({anecdotes, selected, setSelected, handleClick, text}) => { // new component to show anecdote´s count
+  return (
+  <>
+  <p> This anecdote has # votes; </p>
+  </>
+  )
+  
+}
+
 const App = () => {
 
   const anecdotes = [
@@ -29,15 +39,16 @@ const App = () => {
 
     function getVote(props) {
       //console.log(props);
-      const copyAnecdotes = { ...props }
-      //console.log(copyAnecdotes)
-      //console.log(selected)
-      let vote = 0;
+      const copyAnecdotes = [...props] // copy of the original anecdotes array
+      let vote = Array.from(copyAnecdotes, () => 0); // zero-filled array to save the votes counts for each anecdote
+      //console.log(vote);
+      
       copyAnecdotes.forEach( anecdote => {
-        console.log(anecdotes)
-        // let vote = 0;
-        copyAnecdotes[selected] === anecdote ? vote += 1 : vote=0;
+        let anecdoteIndex = props.indexOf(copyAnecdotes[selected]); // taking info of index from the selected anecdote
+        //console.log(anecdoteIndex)
+        copyAnecdotes[selected] === anecdote ? vote[anecdoteIndex] += 1 : console.log('no votes to this anecdote yet'); // conditional to start counting votes for each anecdote
         //console.log(vote)
+        //console.log(copyAnecdotes[selected])
       }) 
      
 
@@ -48,7 +59,7 @@ const App = () => {
   
   const handleClick = (props) => {
     //console.log(props)
-    props === 'anecdote' ? setSelected(getRandomNumber()) : getVote(anecdotes);// here what should be randomly manipulated is anecdote´s index
+    props === 'anecdote' ? setSelected(getRandomNumber()) : getVote(anecdotes, setSelected);
   }
 
 
@@ -57,7 +68,7 @@ const App = () => {
       {anecdotes[selected]} {/*anecdotes index starting in 0 */}
       <Button text={'Vote'} anecdotes={anecdotes} handleClick={() => handleClick('vote')} selected={selected} setSelected={selected}/>
       <Button text={'Next anecdote'} handleClick={() => handleClick('anecdote')} selected={selected} setSelected={selected}/>
-      {/* <button onClick={handleClick}> Click for random anecdote! </button> */}
+      <Vote text={'score'} anecdotes={anecdotes} handleClick={() => handleClick('vote')} selected={selected} setSelected={selected} />
     </div>
   )
 }

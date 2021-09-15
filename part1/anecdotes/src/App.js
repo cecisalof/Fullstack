@@ -6,14 +6,10 @@ const Button = ({selected, setSelected, handleClick, text}) => (
 )
 
 
-const Vote = ({anecdotes, selected, setSelected, handleClick, text}) => { // new component to show anecdote´s count
-  return (
-  <>
-  <p> This anecdote has # votes; </p>
-  </>
+const Vote = ({vote, selected}) => ( // new component to show anecdote´s count
+  <p> This anecdote has {vote[selected]} votes </p> // Rensering vote counts in the screen
   )
-  
-}
+
 
 const App = () => {
 
@@ -28,8 +24,8 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [vote, setVote] = useState(Array.from(anecdotes, () => 0));
   
-
   function getRandomNumber() {
     const random = Math.floor(Math.random() * 6) + 1;
     console.log("random number", random)
@@ -37,28 +33,16 @@ const App = () => {
 
     }
 
-    function getVote(props) {
-      //console.log(props);
-      const copyAnecdotes = [...props] // copy of the original anecdotes array
-      let vote = Array.from(copyAnecdotes, () => 0); // zero-filled array to save the votes counts for each anecdote
-      //console.log(vote);
-      
-      copyAnecdotes.forEach( anecdote => {
-        let anecdoteIndex = props.indexOf(copyAnecdotes[selected]); // taking info of index from the selected anecdote
-        //console.log(anecdoteIndex)
-        copyAnecdotes[selected] === anecdote ? vote[anecdoteIndex] += 1 : console.log('no votes to this anecdote yet'); // conditional to start counting votes for each anecdote
-        //console.log(vote)
-        //console.log(copyAnecdotes[selected])
-      }) 
-     
+    function getVote() { 
+        const copyVoteArray = [...vote];// copying vote array created in it´s state
+        // console.log(copyVoteArray)
+        copyVoteArray[selected] += 1; // incrementing one value of selected anecdote´s vote score
+        setVote(copyVoteArray); //updating state of vote
+      }  
 
-      // if(anecdotes[])
-      return 'This anecdote has'+ {vote} + 'votes';
-  
-      }
+      
   
   const handleClick = (props) => {
-    //console.log(props)
     props === 'anecdote' ? setSelected(getRandomNumber()) : getVote(anecdotes, setSelected);
   }
 
@@ -68,7 +52,7 @@ const App = () => {
       {anecdotes[selected]} {/*anecdotes index starting in 0 */}
       <Button text={'Vote'} anecdotes={anecdotes} handleClick={() => handleClick('vote')} selected={selected} setSelected={selected}/>
       <Button text={'Next anecdote'} handleClick={() => handleClick('anecdote')} selected={selected} setSelected={selected}/>
-      <Vote text={'score'} anecdotes={anecdotes} handleClick={() => handleClick('vote')} selected={selected} setSelected={selected} />
+      <Vote vote={vote} selected={selected}/> {/*passing vote and selectes as props to Vote component*/}
     </div>
   )
 }
